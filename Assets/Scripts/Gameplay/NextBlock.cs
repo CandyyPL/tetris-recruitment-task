@@ -20,7 +20,9 @@ public class NextBlock : MonoBehaviour
         block.name = "NextBlockModel";
         block.transform.SetParent(transform);
 
-        // Block blockComponent = block.GetComponent<Block>();
+        Block blockComponent = block.GetComponent<Block>();
+        blockComponent.blockModel.transform.localPosition += Vector3.left;
+
         block.GetComponent<Block>().enabled = false;
 
         lastBlock = block;

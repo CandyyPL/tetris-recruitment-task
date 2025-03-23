@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                EventManager.Instance.OnLineClear.Invoke();
+                EventManager.Instance.OnLineClear?.Invoke();
             }
         }
     }

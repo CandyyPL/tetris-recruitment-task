@@ -36,7 +36,7 @@ public class BlockSpawner : MonoBehaviour
         blockId = nextBlockId;
         nextBlockId = Random.Range(0, blocks.Length);
 
-        EventManager.Instance.OnNextBlockChosen.Invoke(nextBlockId);
+        EventManager.Instance.OnNextBlockChosen?.Invoke(nextBlockId);
 
         GameObject block = Instantiate(blocks[blockId], spawnPosition, Quaternion.identity);
         block.SetActive(false);

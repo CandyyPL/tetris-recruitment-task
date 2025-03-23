@@ -292,13 +292,13 @@ public class Block : MonoBehaviour
 
         if (!IsValidPosition(spawnPosition))
         {
-            EventManager.Instance.OnGameOver.Invoke();
+            EventManager.Instance.OnGameOver?.Invoke();
             audioManager.PlayGameOverSound();
         }
         else
         {
             BlockSpawner.Instance.SpawnBlock();
-            EventManager.Instance.OnFallTimeDecrease.Invoke();
+            EventManager.Instance.OnFallTimeDecrease?.Invoke();
             audioManager.PlayDropSound();
         }
     }
