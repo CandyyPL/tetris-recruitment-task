@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.OnFallTimeDecrease += OnFallTimeDecrease;
+        EventManager.Instance.OnLineClear += OnLineClear;
 
         boardGrid = new Transform[boardWidth, boardHeight];
         baseFallTime = 0.8f;
@@ -85,5 +86,10 @@ public class GameManager : MonoBehaviour
     private void OnFallTimeDecrease()
     {
         baseFallTime *= 0.99f;
+    }
+
+    private void OnLineClear()
+    {
+        localPlayerScore += 100;
     }
 }
