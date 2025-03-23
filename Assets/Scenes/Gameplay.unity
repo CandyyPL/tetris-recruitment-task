@@ -1837,6 +1837,7 @@ MonoBehaviour:
   boardWidth: 10
   boardHeight: 20
   baseFallTime: 0
+  baseScore: 0
   localPlayerBoardPosition: {x: 0, y: 0, z: 0}
   localPlayerScore: 0
 --- !u!1 &1231070161
@@ -2131,7 +2132,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.75
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2230,6 +2231,7 @@ MonoBehaviour:
   dropSound: {fileID: 8300000, guid: 656bc1d7757334fa38b51b90f13dac03, type: 3}
   moveSound: {fileID: 8300000, guid: 6b0b73709adf44a0c8f54088937dd961, type: 3}
   rotateSound: {fileID: 8300000, guid: c4b1985faee2b42e0aa84c142442a42c, type: 3}
+  gameOverSound: {fileID: 8300000, guid: 81a100fe66cc4694b940ff4295a3c769, type: 3}
 --- !u!1 &1653357848
 GameObject:
   m_ObjectHideFlags: 0

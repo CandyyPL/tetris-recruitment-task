@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioClip dropSound;
     [SerializeField] private AudioClip moveSound;
     [SerializeField] private AudioClip rotateSound;
+    [SerializeField] private AudioClip gameOverSound;
 
     private void Awake()
     {
@@ -40,5 +41,10 @@ public class AudioManager : MonoBehaviour
     public void PlayDropSound()
     {
         audioSource.PlayOneShot(dropSound);
+    }
+
+    public void PlayGameOverSound()
+    {
+        audioSource.PlayOneShot(gameOverSound);
     }
 }

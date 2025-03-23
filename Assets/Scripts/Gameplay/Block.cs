@@ -287,8 +287,19 @@ public class Block : MonoBehaviour
         }
 
         AddToGrid();
-        BlockSpawner.Instance.SpawnBlock();
-        EventManager.Instance.OnFallTimeDecrease.Invoke();
-        audioManager.PlayDropSound();
+
+        Vector3 spawnPosition = BlockSpawner.Instance.spawnPosition;
+
+        if (!IsValidPosition(spawnPosition))
+        {
+            EventManager.Instance.OnGameOver.Invoke();
+            audioManager.PlayGameOverSound();
+        }
+        else
+        {
+            BlockSpawner.Instance.SpawnBlock();
+            EventManager.Instance.OnFallTimeDecrease.Invoke();
+            audioManager.PlayDropSound();
+        }
     }
 }

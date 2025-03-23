@@ -8,6 +8,7 @@ public class EventManager : MonoBehaviour
     public Action OnFallTimeDecrease;
     public Action<int> OnNextBlockChosen;
     public Action OnLineClear;
+    public Action OnGameOver;
 
     private void Awake()
     {

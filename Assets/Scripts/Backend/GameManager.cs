@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public int boardHeight = 20;
 
     public float baseFallTime;
+    public float baseScore;
 
     public Transform[,] boardGrid;
     public Vector3 localPlayerBoardPosition;
@@ -34,6 +35,7 @@ public class GameManager : MonoBehaviour
 
         boardGrid = new Transform[boardWidth, boardHeight];
         baseFallTime = 0.8f;
+        baseScore = 100;
         localPlayerBoardPosition = new Vector3(-0.5f, 9.5f, 0);
     }
 
@@ -85,11 +87,12 @@ public class GameManager : MonoBehaviour
 
     private void OnFallTimeDecrease()
     {
-        baseFallTime *= 0.99f;
+        baseFallTime *= 0.98f;
     }
 
     private void OnLineClear()
     {
-        localPlayerScore += 100;
+        localPlayerScore += Mathf.RoundToInt(baseScore);
+        baseScore *= 1.05f;
     }
 }
