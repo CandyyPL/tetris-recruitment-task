@@ -25,6 +25,8 @@ public class Block : MonoBehaviour
     private Vector2 targetPosition;
     public Vector3 rotationPointVector;
 
+    private AudioManager audioManager;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -44,6 +46,8 @@ public class Block : MonoBehaviour
 
         baseFallTime = GameManager.Instance.baseFallTime;
         fallTime = baseFallTime;
+
+        audioManager = AudioManager.Instance;
     }
 
     private void FixedUpdate()
@@ -100,6 +104,7 @@ public class Block : MonoBehaviour
             if (IsValidPosition(newPosition))
             {
                 targetPosition = newPosition;
+                audioManager.PlayMoveSound();
             }
 
         }
@@ -114,6 +119,10 @@ public class Block : MonoBehaviour
             if (!IsValidPosition(transform.position))
             {
                 transform.Rotate(new Vector3(0, 0, -90));
+            }
+            else
+            {
+                audioManager.PlayRotateSound();
             }
         }
     }
@@ -280,5 +289,6 @@ public class Block : MonoBehaviour
         AddToGrid();
         BlockSpawner.Instance.SpawnBlock();
         EventManager.Instance.OnFallTimeDecrease.Invoke();
+        audioManager.PlayDropSound();
     }
 }
