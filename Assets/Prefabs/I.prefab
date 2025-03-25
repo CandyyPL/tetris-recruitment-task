@@ -457,4 +457,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockModel: {fileID: 4590044644030087672}
+  blockId: 0
   rotationPointVector: {x: 1.5, y: -0.5, z: 0}

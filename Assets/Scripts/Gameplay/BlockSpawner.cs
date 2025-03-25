@@ -28,7 +28,6 @@ public class BlockSpawner : MonoBehaviour
     {
         spawnPosition = playerBoard.transform.position + new Vector3(0.5f, 7.5f, 0);
         nextBlockId = Random.Range(0, blocks.Length);
-        SpawnBlock();
     }
 
     public void SpawnBlock()
