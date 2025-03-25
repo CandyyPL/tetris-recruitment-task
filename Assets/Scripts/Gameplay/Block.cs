@@ -21,6 +21,7 @@ public class Block : MonoBehaviour
     private bool isLerpActive;
     private bool isOnBottom;
     private bool isDisabling;
+    private bool isInFreeFall;
 
     private Vector2 targetPosition;
     public Vector3 rotationPointVector;
@@ -36,33 +37,34 @@ public class Block : MonoBehaviour
 
         boardWidth = GameManager.Instance.boardWidth;
         boardHeight = GameManager.Instance.boardHeight;
+        baseFallTime = GameManager.Instance.baseFallTime;
+        audioManager = AudioManager.Instance;
 
         InputActions.DefaultActions defaultInputActions = InputManager.Instance.inputActions.Default;
 
         defaultInputActions.MoveLeft.performed += OnMoveLeft;
         defaultInputActions.MoveRight.performed += OnMoveRight;
         defaultInputActions.Rotate.performed += OnRotate;
-        // defaultInputActions.HardDrop.performed += OnHardDrop;
+        defaultInputActions.HardDrop.performed += OnHardDrop;
 
-        baseFallTime = GameManager.Instance.baseFallTime;
         fallTime = baseFallTime;
-
-        audioManager = AudioManager.Instance;
+        isInFreeFall = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        timer += Time.fixedDeltaTime;
+        timer += Time.deltaTime;
         if (timer >= fallTime)
         {
             MoveDown();
             StartCoroutine(CheckFloor());
             timer = 0;
         }
-    }
 
-    private void Update()
-    {
+        StartCoroutine(MoveBlock(rb.position, targetPosition));
+
+        if (!isInFreeFall) return;
+
         if (InputManager.Instance.inputActions.Default.SoftDrop.ReadValue<float>() > 0)
         {
             fallTime = 0.1f * baseFallTime;
@@ -71,8 +73,6 @@ public class Block : MonoBehaviour
         {
             fallTime = baseFallTime;
         }
-
-        StartCoroutine(MoveBlock(rb.position, targetPosition));
     }
 
     private void OnMoveLeft(InputAction.CallbackContext obj)
@@ -90,10 +90,10 @@ public class Block : MonoBehaviour
         Rotate();
     }
 
-    /*private void OnHardDrop(InputAction.CallbackContext obj)
+    private void OnHardDrop(InputAction.CallbackContext obj)
     {
-        StartCoroutine(HardDrop());
-    }*/
+        HardDrop();
+    }
 
     private void MoveSides(Vector2 dir)
     {
@@ -106,7 +106,6 @@ public class Block : MonoBehaviour
                 targetPosition = newPosition;
                 audioManager.PlayMoveSound();
             }
-
         }
     }
 
@@ -140,71 +139,11 @@ public class Block : MonoBehaviour
         }
     }
 
-    /*private IEnumerator HardDrop()
+    private void HardDrop()
     {
-        while (isLerpActive || isDisabling)
-        {
-            yield return null;
-        }
-
-        int currentX = Mathf.RoundToInt(transform.position.x);
-        int currentY = Mathf.RoundToInt(transform.position.y);
-
-        Vector2 lastDropPosition = transform.position;
-
-        for (int y = currentY; y >= 0; y--)
-        {
-            Vector2 dropPosition = new Vector2(currentX, y);
-
-            if (IsValidPosition(dropPosition))
-            {
-                if (y == 0)
-                {
-                    if (blockId == 0)
-                    {
-                        // IDK
-                    }
-                    else if (blockId == 3)
-                    {
-                        targetPosition = dropPosition + new Vector2(0.5f, 0.5f);
-                    }
-                    else
-                    {
-                        targetPosition = dropPosition;
-                    }
-
-                    break;
-                }
-
-                lastDropPosition = dropPosition;
-                continue;
-            }
-            else
-            {
-                if (!IsValidPosition(lastDropPosition)) yield return null;
-                else
-                {
-                    if (blockId == 0)
-                    {
-                        // IDK
-                    }
-                    else if (blockId == 3)
-                    {
-                        targetPosition = lastDropPosition + new Vector2(0.5f, 0.5f);
-                    }
-                    else
-                    {
-                        targetPosition = lastDropPosition;
-                    }
-
-                    break;
-                }
-            }
-        }
-
-        StartCoroutine(Disable());
-        yield return null;
-    }*/
+        isInFreeFall = false;
+        fallTime = 0f;
+    }
 
     private IEnumerator MoveBlock(Vector2 position, Vector2 target)
     {
