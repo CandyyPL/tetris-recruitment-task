@@ -11,16 +11,15 @@ public class GameManager : MonoBehaviour
     public float baseScore;
 
     public Transform[,] boardGrid;
-    public Vector3 localPlayerBoardPosition;
 
-    public int localPlayerScore;
+    public int playerScore;
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -36,9 +35,9 @@ public class GameManager : MonoBehaviour
         boardGrid = new Transform[boardWidth, boardHeight];
         baseFallTime = 0.8f;
         baseScore = 100;
-        localPlayerBoardPosition = new Vector3(-0.5f, 9.5f, 0);
     }
 
+    // loop through the grid, to check for full lines, if the line is full - remove it and shift down all blocks above it
     private void Update()
     {
         for (int line = 0; line < boardHeight; line++)
@@ -92,7 +91,7 @@ public class GameManager : MonoBehaviour
 
     private void OnLineClear()
     {
-        localPlayerScore += Mathf.RoundToInt(baseScore);
+        playerScore += Mathf.RoundToInt(baseScore);
         baseScore *= 1.05f;
     }
 }

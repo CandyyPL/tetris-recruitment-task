@@ -7,6 +7,7 @@ public class SceneLoader : MonoBehaviour
 {
     [SerializeField] private SceneAsset gameplayScene;
 
+    // load backend scene which will automatically load gameplay scene
     IEnumerator Start()
     {
         AsyncOperation gameplaySceneLoading = SceneManager.LoadSceneAsync(gameplayScene.name, LoadSceneMode.Additive);

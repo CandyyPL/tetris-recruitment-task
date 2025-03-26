@@ -135,15 +135,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""9bc6a31f-98fc-425b-b487-0e7be54e7a3c"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -193,17 +184,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""419fa3a7-fcec-4a5c-95f5-8921d0d6c319"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""befef567-6c2e-4130-8f8f-355c47c4179f"",
                     ""path"": ""<Keyboard>/upArrow"",
                     ""interactions"": """",
@@ -225,7 +205,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Default_Rotate = m_Default.FindAction("Rotate", throwIfNotFound: true);
         m_Default_SoftDrop = m_Default.FindAction("Soft Drop", throwIfNotFound: true);
         m_Default_HardDrop = m_Default.FindAction("Hard Drop", throwIfNotFound: true);
-        m_Default_Pause = m_Default.FindAction("Pause", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -311,7 +290,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Default_Rotate;
     private readonly InputAction m_Default_SoftDrop;
     private readonly InputAction m_Default_HardDrop;
-    private readonly InputAction m_Default_Pause;
     /// <summary>
     /// Provides access to input actions defined in input action map "Default".
     /// </summary>
@@ -343,10 +321,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Default/HardDrop".
         /// </summary>
         public InputAction @HardDrop => m_Wrapper.m_Default_HardDrop;
-        /// <summary>
-        /// Provides access to the underlying input action "Default/Pause".
-        /// </summary>
-        public InputAction @Pause => m_Wrapper.m_Default_Pause;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -388,9 +362,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HardDrop.started += instance.OnHardDrop;
             @HardDrop.performed += instance.OnHardDrop;
             @HardDrop.canceled += instance.OnHardDrop;
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
         }
 
         /// <summary>
@@ -417,9 +388,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HardDrop.started -= instance.OnHardDrop;
             @HardDrop.performed -= instance.OnHardDrop;
             @HardDrop.canceled -= instance.OnHardDrop;
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
         }
 
         /// <summary>
@@ -495,12 +463,5 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHardDrop(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPause(InputAction.CallbackContext context);
     }
 }

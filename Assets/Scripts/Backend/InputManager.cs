@@ -19,4 +19,9 @@ public class InputManager : MonoBehaviour
         inputActions = new InputActions();
         inputActions.Default.Enable();
     }
+
+    private void OnDisable()
+    {
+        inputActions.Default.Disable();
+    }
 }

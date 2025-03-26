@@ -12,6 +12,6 @@ public class Score : MonoBehaviour
 
     private void OnLineClear()
     {
-        scoreText.text = (GameManager.Instance.localPlayerScore + 100).ToString();
+        scoreText.text = (GameManager.Instance.playerScore + 100).ToString();
     }
 }

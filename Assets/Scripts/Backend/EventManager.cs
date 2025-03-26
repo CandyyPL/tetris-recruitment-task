@@ -5,8 +5,8 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance;
 
-    public Action OnFallTimeDecrease;
     public Action<int> OnNextBlockChosen;
+    public Action OnFallTimeDecrease;
     public Action OnLineClear;
     public Action OnGameOver;
 

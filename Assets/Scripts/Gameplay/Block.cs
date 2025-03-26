@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -40,12 +39,12 @@ public class Block : MonoBehaviour
         baseFallTime = GameManager.Instance.baseFallTime;
         audioManager = AudioManager.Instance;
 
-        InputActions.DefaultActions defaultInputActions = InputManager.Instance.inputActions.Default;
+        InputActions.DefaultActions inputActions = InputManager.Instance.inputActions.Default;
 
-        defaultInputActions.MoveLeft.performed += OnMoveLeft;
-        defaultInputActions.MoveRight.performed += OnMoveRight;
-        defaultInputActions.Rotate.performed += OnRotate;
-        defaultInputActions.HardDrop.performed += OnHardDrop;
+        inputActions.MoveLeft.performed += OnMoveLeft;
+        inputActions.MoveRight.performed += OnMoveRight;
+        inputActions.Rotate.performed += OnRotate;
+        inputActions.HardDrop.performed += OnHardDrop;
 
         fallTime = baseFallTime;
         isInFreeFall = true;
@@ -53,6 +52,7 @@ public class Block : MonoBehaviour
 
     private void Update()
     {
+        // move block down when timer reaches fallTime
         timer += Time.deltaTime;
         if (timer >= fallTime)
         {
@@ -63,8 +63,10 @@ public class Block : MonoBehaviour
 
         StartCoroutine(MoveBlock(rb.position, targetPosition));
 
+        // if block is not in free fall, do not go further
         if (!isInFreeFall) return;
 
+        // else, handle soft drop
         if (InputManager.Instance.inputActions.Default.SoftDrop.ReadValue<float>() > 0)
         {
             fallTime = 0.1f * baseFallTime;
@@ -145,6 +147,7 @@ public class Block : MonoBehaviour
         fallTime = 0f;
     }
 
+    // move block, and keep track of lerp
     private IEnumerator MoveBlock(Vector2 position, Vector2 target)
     {
         if (isLerpActive || position == target) yield break;
@@ -166,6 +169,7 @@ public class Block : MonoBehaviour
         isLerpActive = false;
     }
 
+    // check for floor presence, if block reaches floor - disable it
     private IEnumerator CheckFloor()
     {
         while (isLerpActive)
@@ -182,6 +186,7 @@ public class Block : MonoBehaviour
         }
     }
 
+    // check for position validity, looping through each blocks' square and checking whether its new position is valid
     private bool IsValidPosition(Vector2 newPosition)
     {
         Transform[,] boardGrid = GameManager.Instance.boardGrid;
@@ -193,8 +198,6 @@ public class Block : MonoBehaviour
             int x = Mathf.RoundToInt(child.transform.position.x + posChange.x);
             int y = Mathf.RoundToInt(child.transform.position.y + posChange.y);
 
-            x += 5;
-
             if (x < 0 || x >= boardWidth || y < 0 || y >= boardHeight) return false;
 
             if (boardGrid[x, y] != null) return false;
@@ -203,6 +206,7 @@ public class Block : MonoBehaviour
         return true;
     }
 
+    // when block hits floor, add it to the grid
     private void AddToGrid()
     {
         foreach (Transform child in blockModel.transform)
@@ -210,16 +214,16 @@ public class Block : MonoBehaviour
             int x = Mathf.RoundToInt(child.transform.position.x);
             int y = Mathf.RoundToInt(child.transform.position.y);
 
-            x += 5;
-
             GameManager.Instance.AddToGrid(x, y, child);
         }
     }
 
+    // disable block when it hits floor
     private IEnumerator Disable()
     {
         isDisabling = true;
         
+        // hold until lerp is active and/or position is changing
         while (isLerpActive || targetPosition != rb.position)
         {
             yield return null;
@@ -229,10 +233,12 @@ public class Block : MonoBehaviour
 
         Vector3 spawnPosition = BlockSpawner.Instance.spawnPosition;
 
+        // if spawn position is not valid - game over
         if (!IsValidPosition(spawnPosition))
         {
             EventManager.Instance.OnGameOver?.Invoke();
             audioManager.PlayGameOverSound();
+            UIManager.Instance.ShowGameOverPanel();
         }
         else
         {

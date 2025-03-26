@@ -10,7 +10,8 @@ public class BlockSpawner : MonoBehaviour
     private int nextBlockId;
 
     [SerializeField] private GameObject playerBoard;
-    public Vector3 spawnPosition;
+
+    public readonly Vector3 spawnPosition = new Vector3(5f, 17f, 0);
 
     private void Awake()
     {
@@ -26,14 +27,14 @@ public class BlockSpawner : MonoBehaviour
 
     private void Start()
     {
-        spawnPosition = playerBoard.transform.position + new Vector3(0.5f, 7.5f, 0);
-        nextBlockId = Random.Range(0, blocks.Length);
+        nextBlockId = Random.Range(0, 6);
     }
 
+    // spawn new block, and position it properly
     public void SpawnBlock()
     {
         blockId = nextBlockId;
-        nextBlockId = Random.Range(0, blocks.Length);
+        nextBlockId = Random.Range(0, 6);
 
         EventManager.Instance.OnNextBlockChosen?.Invoke(nextBlockId);
 

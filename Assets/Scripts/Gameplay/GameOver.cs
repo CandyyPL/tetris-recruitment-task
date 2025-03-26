@@ -1,13 +1,14 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
+    [SerializeField] private SceneAsset backendScene;
+
     public void PlayAgain()
     {
-        Scene gameplayScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(gameplayScene.name, LoadSceneMode.Additive);
-        SceneManager.SetActiveScene(gameplayScene);
+        SceneManager.LoadScene(backendScene.name, LoadSceneMode.Single);
     }
 
     public void Quit()
